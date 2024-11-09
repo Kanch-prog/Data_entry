@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data Entry Project - Run Clubs Data Collection">
+  <title>Project: Run Clubs Data Collection</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Back to Portfolio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Project Details -->
+  <section id="project-details">
+    <h1>Web Scraping Project: Books to Scrape</h1>
+
+    <h2>Description</h2>
+    <p>This project involved scraping data from the "Books to Scrape" website to collect useful book information. The goal was to practice web scraping techniques and organize the data into a structured format for further analysis and learning.</p>
+
+    <p><a href="https://books.toscrape.com/" target="_blank">https://books.toscrape.com/</a></p>
+
+    <h2>Objective</h2>
+    <p>The primary objective was to extract essential information about each book, such as:
+        <ul>
+            <li>Book Titles</li>
+            <li>Prices</li>
+            <li>Ratings</li>
+            <li>Availability</li>
+        </ul>
+    This data was then organized in a CSV file or Google Spreadsheet to make it easy to analyze.</p>
+
+    <h2>Technologies Used</h2>
+    <ul>
+        <li><strong>Python</strong>: For scripting and automation.</li>
+        <li><strong>BeautifulSoup</strong>: For parsing HTML and locating elements on the page.</li>
+        <li><strong>Pandas</strong>: For structuring the data and exporting it to a CSV file.</li>
+        <li><strong>Requests</strong>: For handling HTTP requests to fetch the webpage content.</li>
+    </ul>
+
+    <h2>Solution</h2>
+    <p>To achieve the project objectives, I implemented the following steps:</p>
+    <ul>
+        <li>Fetched the HTML content of the Books to Scrape website.</li>
+        <li>Used BeautifulSoup to locate and extract each book’s title, price, rating, and availability status.</li>
+        <li>Organized this information into a structured format using Pandas and exported it to a CSV file.</li>
+    </ul>
+
+    <h2>Challenges and Learnings</h2>
+    <p>One challenge was navigating the pagination of the site. I overcame this by identifying and looping through each page's URL. This project enhanced my understanding of HTML parsing and data structuring with Pandas.</p>
+    <pre><code>
+      import requests
+      from bs4 import BeautifulSoup
+      import pandas as pd
+      
+      # URL of the Books to Scrape website
+      url = 'http://books.toscrape.com/'
+      
+      # Send a GET request to fetch the webpage content
+      response = requests.get(url)
+      soup = BeautifulSoup(response.text, 'html.parser')
+      
+      # Initialize empty lists to store data
+      book_titles = []
+      prices = []
+      ratings = []
+      availability = []
+      
+      # Loop through each book on the page
+      for book in soup.find_all('article', class_='product_pod'):
+          # Extract the book title
+          title = book.find('h3').find('a')['title']
+          book_titles.append(title)
+          
+          # Extract the price of the book
+          price = book.find('p', class_='price_color').text
+          prices.append(price)
+          
+          # Extract the rating of the book
+          rating = book.find('p', class_='star-rating')['class'][1]  # class contains the rating as "star-rating-[rating]"
+          ratings.append(rating)
+          
+          # Extract availability (in stock or out of stock)
+          avail = book.find('p', class_='instock availability').text.strip()
+          availability.append(avail)
+      
+      # Create a DataFrame to organize the data
+      df = pd.DataFrame({
+          'Book Title': book_titles,
+          'Price': prices,
+          'Rating': ratings,
+          'Availability': availability
+      })
+      
+      # Save the DataFrame to a CSV file
+      df.to_csv('books_data.csv', index=False)
+      
+      # Print the first few rows of the DataFrame
+      print(df.head())
+      
+    </code></pre>
+
+    <h2>Outcome</h2>
+    <p>The data collected was organized into a CSV file.</p>
+    <img src="images/upwork_project_image5.png" alt="Upwork Project Screenshot" width="600">
+
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Kanchana's Data Entry Portfolio</p>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

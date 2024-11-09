@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data Entry Project - Company Details Extraction">
+  <title>Project: Company Details Extraction</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Back to Portfolio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Project Details -->
+  <section id="project-details">
+    <h1>Data Entry Project: Company Details Extraction</h1>
+
+    <h2>Description</h2>
+    <p>The client provided a list of 50 companies with their names and domain addresses in a spreadsheet. The task was to find the business address, phone number, CEO/Founder/Owner/Partner's name, and title when possible for each company.</p>
+
+    <h2>Task</h2>
+    <p>The objective was to extract key business information such as the address, phone number, and key leadership names for a list of companies. The information was to be filled in a separate spreadsheet in the requested format.</p>
+    <p><a href="https://docs.google.com/spreadsheets/d/1AU0nA_p_UqUHA87LQS9qbPRlsq0z4ZUruL5PbXJhnns/edit?usp=sharing" target="_blank">https://docs.google.com/spreadsheets/d/1AU0nA_p_UqUHA87LQS9qbPRlsq0z4ZUruL5PbXJhnns/edit?usp=sharing</a></p>
+
+
+    <h2>Project on Upwork</h2>    
+    <img src="images/upwork_project_image1.png" alt="Upwork Project Screenshot" width="600">
+
+    <h2>Solution</h2>
+    <p>The solution involved using a combination of automated web scraping tools and manual data entry. I used Python for automating the process of looking up company names and domains to extract relevant data from publicly available sources such as:</p>
+    <ul>
+      <li>Company websites</li>
+      <li>LinkedIn profiles of company executives</li>
+      <li>Business directories (such as Crunchbase, ZoomInfo, etc.)</li>
+    </ul>
+
+    <h2>Code Snippet for Web Scraping</h2>
+    <p>For automation, I used Python with the BeautifulSoup and Requests libraries to scrape relevant details from the web.</p>
+    <pre><code>
+        !pip install requests beautifulsoup4 selenium openpyxl
+
+        import pandas as pd
+        from bs4 import BeautifulSoup
+        import requests
+        from time import sleep
+
+
+        # Load the spreadsheet
+        file_path = "/content/drive/MyDrive/Colab Notebooks/Lead Generation - Email List Building.xlsx"  # Update with your file path
+        
+        df = pd.read_excel(file_path)
+        
+        # Function to scrape Google using BeautifulSoup (for static scraping)
+        def search_google(query):
+            url = f"https://www.google.com/search?q={query}"
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+            }
+            response = requests.get(url, headers=headers)
+            soup = BeautifulSoup(response.text, "html.parser")
+            
+            # Find the first result snippet (Note: Google's HTML structure can change)
+            try:
+                result = soup.find('div', class_="BNeawe").text
+                return result
+            except AttributeError:
+                return "Data not found"
+        
+        # Main script to gather data and print to console
+        for index, row in df.iterrows():
+            domain = row['Domain Name']
+            company_name = row['Company Name']
+        
+            # Perform Google search to find CEO name and address
+            try:
+                ceo_search_query = f"{company_name} CEO"
+                address_search_query = f"{company_name} address"
+                
+                # Use static scraping (BeautifulSoup) for each search
+                ceo_name = search_google(ceo_search_query)
+                address = search_google(address_search_query)
+                
+                # Print the fetched information to the console
+                print(f"Company: {company_name}")
+                print(f" - Domain: {domain}")
+                print(f" - CEO: {ceo_name}")
+                print(f" - Address: {address}")
+                print("-" * 40)  # Separator for readability
+        
+                # Delay to avoid being blocked by Google
+                sleep(2)
+        
+            except Exception as e:
+                print(f"An error occurred for {company_name}: {e}")
+    </code></pre>
+
+    <h2>Outcome</h2>
+    <p>After running the web scraping script and manually verifying the results, I was able to accurately populate the business information for all 50 companies.</p>
+    <pre><code>
+        Company: Accel
+        - Domain: accel.com
+        - CEO: Jim Swartz - Accel
+        - Address: Locations
+        ----------------------------------------
+        Company: Acxiom
+        - Domain: acxiom.com
+        - CEO: Chad Engelgau
+        - Address: Acxiom, 301 E Dave Ward Dr, Conway, AR 72032, US - MapQuest.
+        ----------------------------------------
+        Company: Algolia
+        - Domain: algolia.com
+        - CEO: Bernadette Nixon
+        - Address: Algolia, Inc., with mailing address at 3790 El Camino Real, Unit #518, Palo Alto, CA 94306, United States.
+        ----------------------------------------
+        Company: App Annie
+        - Domain: appannie.com
+        - CEO: Ted Krantz
+        - Address: App Annie Information - RocketReach
+        ----------------------------------------
+        Company: AppDynamics
+        - Domain: appdynamics.com
+        - CEO: David Wadhwani serves as the CEO / President of AppDynamics.
+        - Address: AppDynamics is headquartered in San Francisco, 500 Terry A Francois Blvd 3rd Floor, United States, and has 19 office locations.
+        ----------------------------------------
+        Company: Appirio
+        - Domain: appirio.com
+        - CEO: A New Phase for Appirio, A New Challenge For Its CEO - Chris Barbin
+        - Address: Appirio's main headquarters is located at 201 S. Capitol Ave Suite 1100 Indianapolis, IN 46225 US.
+        ----------------------------------------
+        Company: AVG Technologies
+        - Domain: avg.com
+        - CEO: Additionally, former Mozilla CEO Gary Kovacs was appointed CEO of AVG.
+        - Address: Contact Us - AVG Antivirus
+        ----------------------------------------
+        Company: BloomReach
+        - Domain: bloomreach.com
+        - CEO: Raj De Datta is Co-Founder and CEO of Bloomreach, a leading software platform for digital commerce experiences that powers brands representing 25% of retail Ecommerce in the US and the UK.
+        - Address: Places
+----------------------------------------
+    </code></pre>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Kanchana's Data Entry Portfolio</p>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

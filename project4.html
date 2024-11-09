@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry Project: Contact Details</title>   
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Back to Portfolio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+<section id="project-details">
+    <h1>Data Entry Project: Contact Details from PDF</h1>
+
+    <h2>Description</h2>
+    <p>This project involved extracting names, titles, and contact details from a provided PDF document and entering them into a structured format in either a CSV or XLSX spreadsheet file.</p>
+
+    <h2>Task</h2>
+    <p>To accurately gather and organize the following details for each contact:
+        <ul>
+            <li>Name</li>
+            <li>Title</li>
+            <li>Company</li>
+            <li>Street Address</li>
+            <li>City</li>
+            <li>State</li>
+            <li>ZIP</li>
+            <li>Phone</li>
+            <li>Fax</li>
+            <li>Email</li>
+            <li>Website (if available)</li>
+        </ul>
+    </p>
+
+    <h2>Resource File</h2>
+    <p>The details were extracted from a PDF file, which can be found <a href="https://drive.google.com/file/d/1Fb2ilibgmVX-giN8eYRBx3vdr8qH1OCj/view?usp=sharing" target="_blank">here</a>.</p>
+
+    <h2>Solution</h2>
+    <p>To complete the task, I:
+        <ul>
+            <li>Opened and reviewed the PDF document to locate all relevant details.</li>
+            <li>Entered the data manually into a structured spreadsheet format, ensuring accuracy.</li>
+            <li>Formatted the data as requested in either .CSV or .XLSX format for ease of use and compatibility.</li>
+        </ul>
+    </p>
+
+    <pre><code>
+        import pandas as pd
+
+        # Create a list of dictionaries containing the data
+        data = [
+            {"Name": "P. Thomas Austin CPA, CLU, ChFC", "Title": "CPA, CLU, ChFC", "Company": "Ziegler, Metzger & Miller LLP", "Street Address": "925 Euclid Avenue, #2020", "City": "Cleveland", "State": "OH", "ZIP": "44115", "Phone": "216-781-5470", "Fax": "216-781-0714", "Email": "taustin@zieglermetzger.com", "Website": None},
+            {"Name": "Christopher P. Bray Atty, CPA", "Title": "Atty, CPA", "Company": "Willow Street Advisors, LLC", "Street Address": "9132 Strada Place, 2nd Fl.", "City": "Naples", "State": "FL", "ZIP": "34108", "Phone": "239-596-9080", "Fax": "239-596-9083", "Email": "cpbray@willowstreetadvisors.com", "Website": None},
+            {"Name": "Heather A. Cornell CPA", "Title": "CPA", "Company": "Stan Bazan & Company", "Street Address": "4807 Rock.side Rd., Ste. 620", "City": "Cleveland", "State": "OH", "ZIP": "44131", "Phone": "216-328-7800", "Fax": "216-328-8565", "Email": "wytaxman@aol.com", "Website": None},
+            {"Name": "Lynda Doland CPA, MT", "Title": "CPA, MT", "Company": "Corrigan Krause", "Street Address": "2055 Crocker Rd., Ste. 300", "City": "Westlake", "State": "OH", "ZIP": "44145", "Phone": "440-471-0800", "Fax": "440-471-0801", "Email": "lynda@corrigankrause.com", "Website": None},
+            {"Name": "Naomi D. Ganoe CPA, CFP(r)", "Title": "CPA, CFP(r)", "Company": "CBIZ MHM", "Street Address": "4040 Embassy Pkwy., Ste. 100", "City": "Akron", "State": "OH", "ZIP": "44333", "Phone": "330-668-6500", "Fax": "330-666-8789", "Email": "nganoe@cbiz.com", "Website": None},
+            {"Name": "James M. Horkey CPAIABV", "Title": "CPAIABV", "Company": "Howard, Wershbale & Associates", "Street Address": None, "City": None, "State": None, "ZIP": None, "Phone": None, "Fax": None, "Email": None, "Website": None},
+            {"Name": "Charles J. Avarello CPA, CFP(r)", "Title": "CPA, CFP(r)", "Company": "Senior Manager, Fairway Wealth Management", "Street Address": "6393 Oak Tree Blvd., Ste. 108", "City": "Independence", "State": "OH", "ZIP": "44131", "Phone": "216-573-7200", "Fax": "216-573-7205", "Email": "cja@fairwaywealth.com", "Website": "http://www.fairwaywealth.com"},
+            {"Name": "Mark A. Ciulla", "Title": None, "Company": "Capital Advisors Ltd.", "Street Address": "1115 Tower East, 20600 Chagrin Blvd.", "City": "Shaker Hts.", "State": "OH", "ZIP": "44122", "Phone": "216-295-7900", "Fax": "216-295-8300", "Email": "mciulla@capitaladvisorsltd.com", "Website": None},
+            {"Name": "Thomas H. Craft CPA", "Title": "CPA", "Company": "Sagemark Private Wealth Services", "Street Address": "9075 Town Centre Drive, Ste. 130", "City": "Broadview Hts.", "State": "OH", "ZIP": "44145", "Phone": "440-717-1199", "Fax": "440-717-1620", "Email": "thomas.craft@lfg.com", "Website": None},
+            {"Name": "Christopher M. Essig", "Title": None, "Company": "PricewaterhouseCoopers LLP", "Street Address": "200 Public Sq., #1800", "City": "Cleveland", "State": "OH", "ZIP": "44114", "Phone": "216-875-3099", "Fax": "813-329-2915", "Email": "christopher.m.essig@us.pwc.com", "Website": None},
+            {"Name": "Stacey M. Gardella CPA, CFP(r)", "Title": "CPA, CFP(r)", "Company": "Stan Bazan & Company", "Street Address": "4807 Rockside Rd., Ste. 620", "City": "Cleveland", "State": "OH", "ZIP": "44131", "Phone": "216-328-7800", "Fax": "216-328-8565", "Email": "gardella@aol.com", "Website": None},
+            {"Name": "Howard J. Kass CPA", "Title": "CPA", "Company": "Zinner & Co., LLP", "Street Address": None, "City": None, "State": None, "ZIP": None, "Phone": None, "Fax": None, "Email": None, "Website": None},
+            {"Name": "Alane Boffa CPA", "Title": "CPA", "Company": "Cohen & Company", "Street Address": "121 S. Main St., Ste. 300", "City": "Akron", "State": "OH", "ZIP": "44308", "Phone": "330-255-4316", "Fax": "330-535-0111", "Email": "aboffa@cohencpa.com", "Website": None},
+            {"Name": "David E. Cook", "Title": None, "Company": "David E. Cook & Associates", "Street Address": "57 E. Washington St.", "City": "Chagrin Falls", "State": "OH", "ZIP": "44022", "Phone": "440-247-2815", "Fax": "440-247-6719", "Email": "decookcpa@aol.com", "Website": None},
+            {"Name": "Doris A. Seifert Day CPA", "Title": "CPA", "Company": "Director of Tax Services, Walthall, Drake & Wallace, LLP", "Street Address": "6300 Rockside Rd., Suite 100", "City": "Cleveland", "State": "OH", "ZIP": "44131", "Phone": "216-573-2330 x 227", "Fax": "216-524-2624", "Email": "d.day@walthall.com", "Website": "http://www.walthall.com"},
+            {"Name": "Charles E. Federanlch", "Title": None, "Company": "Pease & Associates, Inc.", "Street Address": "1422 Euclid Ave., Suite 801", "City": "Cleveland", "State": "OH", "ZIP": "44115-2001", "Phone": "216-348-9600", "Fax": "216-348-9610", "Email": "cfederanioh@peasecpa.com", "Website": "http://www.peasecpa.com"},
+            {"Name": "Patricia D. Garven CPA", "Title": "CPA", "Company": "Pease & Associates", "Street Address": "1422 Euclid Ave., Ste. 801", "City": "Cleveland", "State": "OH", "ZIP": "44115", "Phone": "216-348-9611", "Fax": "216-348-9610", "Email": "pgarven@peasecpa.com", "Website": None},
+            {"Name": "Lesley Keller", "Title": None, "Company": "Zinner & Co., LLP", "Street Address": None, "City": None, "State": None, "ZIP": None, "Phone": None, "Fax": None, "Email": None, "Website": None}
+        ]
+
+        # Convert the data into a DataFrame
+        df = pd.DataFrame(data)
+
+        # Display the DataFrame
+        print(df)
+
+        # Save the data to a CSV file
+        df.to_csv('contact_details.csv', index=False)
+
+    </code></pre>
+
+    <h2>Output</h2>
+    <p>The final output is a structured spreadsheet containing all the required fields, available in both .CSV and .XLSX formats upon request.</p>
+    <p>
+        <a href="docs/contact_details.csv" target="_blank" rel="noopener noreferrer">The final CSV document</a>
+    </p>
+
+</section>
+
+<footer>
+    <p>&copy; 2024 Kanchana's Data Entry Portfolio</p>
+</footer>
+
+<script src="scripts.js"></script>
+
+</body>
+</html>
